@@ -36,6 +36,21 @@ const gameBoard = (() => {
     });
   });
 
+  const restartBtn = document.querySelector('.restart');
+
+  restartBtn.addEventListener('click', restartGame);
+
+  function restartGame() {
+    for (let i = 0; i < gameBoard.board.length; i++) {
+      board[i] = '';
+    }
+    game.remainingSpots = 9;
+    game.activePlayer = game.playerOne;
+    game.winnerDeclared = false;
+    displayBoard();
+    game.display.textContent = "Player 1's Turn";
+  }
+
   return { board };
 })();
 
@@ -88,6 +103,8 @@ const game = (() => {
 
   return {
     activePlayer,
+    playerOne,
+    display,
     switchTurn,
     updateDisplay,
     checkWinner,
