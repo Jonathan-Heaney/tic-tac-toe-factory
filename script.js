@@ -28,7 +28,7 @@ const gameBoard = (() => {
       if (game.winnerDeclared === false) {
         if (game.remainingSpots > 0) {
           game.switchTurn();
-          game.updateTurnDisplay();
+          game.updateDisplay();
           console.log(game.remainingSpots);
         } else {
           game.declareTie();
@@ -54,19 +54,10 @@ const game = (() => {
     } else this.activePlayer = playerOne;
   }
 
-  const turnDisplay = document.querySelector('.turn');
-  function updateTurnDisplay() {
-    turnDisplay.textContent = `${this.activePlayer.playerName}'s Turn`;
+  const display = document.querySelector('.display');
+  function updateDisplay() {
+    display.textContent = `${this.activePlayer.playerName}'s Turn`;
   }
-
-  //   let winner;
-
-  //   function checkWinner() {
-  //     checkRowWinner();
-  //     checkColumnWinner();
-  //     checkDiagonalWinner();
-  //     checkTie();
-  //   }
 
   const winConditions = [
     [0, 1, 2],
@@ -86,38 +77,23 @@ const game = (() => {
         gameBoard.board[item[1]] === this.activePlayer.letter &&
         gameBoard.board[item[2]] === this.activePlayer.letter
       ) {
-        console.log('winner');
-        turnDisplay.textContent = `${this.activePlayer.playerName} wins!`;
-        console.log(activePlayer);
+        display.textContent = `${this.activePlayer.playerName} wins!`;
         this.winnerDeclared = true;
       }
     });
   }
 
-  function checkTie() {
-    if (remainingSpots === 0) {
-      declareTie();
-      console.log('Tie');
-    }
-  }
-
   function declareTie() {
-    turnDisplay.textContent = "It's a tie!";
-    console.log('declare');
-  }
-
-  function showWinner() {
-    turnDisplay.textContent = `Player ${winner} has won!`;
+    display.textContent = "It's a tie!";
   }
 
   return {
     activePlayer,
     switchTurn,
-    updateTurnDisplay,
+    updateDisplay,
     checkWinner,
     remainingSpots,
     winnerDeclared,
-    checkTie,
     declareTie,
   };
 })();
