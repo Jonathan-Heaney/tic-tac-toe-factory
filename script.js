@@ -20,7 +20,7 @@ const gameBoard = (() => {
   squares.forEach((square) => {
     square.addEventListener('click', (e) => {
       if (board[`${e.target.id}`]) return;
-      if (this.winnerDeclared) return;
+      if (game.winnerDeclared) return;
       board[`${e.target.id}`] = `${game.activePlayer.letter}`;
       game.remainingSpots--;
       displayBoard();
@@ -59,84 +59,39 @@ const game = (() => {
     turnDisplay.textContent = `${this.activePlayer.playerName}'s Turn`;
   }
 
-  let winner;
+  //   let winner;
+
+  //   function checkWinner() {
+  //     checkRowWinner();
+  //     checkColumnWinner();
+  //     checkDiagonalWinner();
+  //     checkTie();
+  //   }
+
+  const winConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
   function checkWinner() {
-    checkRowWinner();
-    checkColumnWinner();
-    checkDiagonalWinner();
-    checkTie();
-  }
-
-  function checkRowWinner() {
-    if (
-      gameBoard.board[0] === gameBoard.board[1] &&
-      gameBoard.board[0] === gameBoard.board[2] &&
-      gameBoard.board[0]
-    ) {
-      winner = `${gameBoard.board[0]}`;
-      showWinner();
-      this.winnerDeclared = true;
-    } else if (
-      gameBoard.board[3] === gameBoard.board[4] &&
-      gameBoard.board[3] === gameBoard.board[5] &&
-      gameBoard.board[3]
-    ) {
-      winner = `${gameBoard.board[3]}`;
-      showWinner();
-      winnerDeclared = true;
-    } else if (
-      gameBoard.board[6] === gameBoard.board[7] &&
-      gameBoard.board[6] === gameBoard.board[8] &&
-      gameBoard.board[6]
-    ) {
-      winner = `${gameBoard.board[6]}`;
-      showWinner();
-      winnerDeclared = true;
-    }
-  }
-
-  function checkColumnWinner() {
-    if (
-      gameBoard.board[0] === gameBoard.board[3] &&
-      gameBoard.board[0] === gameBoard.board[6] &&
-      gameBoard.board[0]
-    ) {
-      winner = `${gameBoard.board[0]}`;
-      showWinner();
-    } else if (
-      gameBoard.board[1] === gameBoard.board[4] &&
-      gameBoard.board[1] === gameBoard.board[7] &&
-      gameBoard.board[1]
-    ) {
-      winner = `${gameBoard.board[1]}`;
-      showWinner();
-    } else if (
-      gameBoard.board[2] === gameBoard.board[5] &&
-      gameBoard.board[2] === gameBoard.board[8] &&
-      gameBoard.board[2]
-    ) {
-      winner = `${gameBoard.board[2]}`;
-      showWinner();
-    }
-  }
-
-  function checkDiagonalWinner() {
-    if (
-      gameBoard.board[0] === gameBoard.board[4] &&
-      gameBoard.board[0] === gameBoard.board[8] &&
-      gameBoard.board[0]
-    ) {
-      winner = `${gameBoard.board[0]}`;
-      showWinner();
-    } else if (
-      gameBoard.board[2] === gameBoard.board[4] &&
-      gameBoard.board[2] === gameBoard.board[6] &&
-      gameBoard.board[2]
-    ) {
-      winner = `${gameBoard.board[2]}`;
-      showWinner();
-    }
+    winConditions.forEach((item, index) => {
+      if (
+        gameBoard.board[item[0]] === this.activePlayer.letter &&
+        gameBoard.board[item[1]] === this.activePlayer.letter &&
+        gameBoard.board[item[2]] === this.activePlayer.letter
+      ) {
+        console.log('winner');
+        turnDisplay.textContent = `${this.activePlayer.playerName} wins!`;
+        console.log(activePlayer);
+        this.winnerDeclared = true;
+      }
+    });
   }
 
   function checkTie() {
@@ -151,18 +106,6 @@ const game = (() => {
     console.log('declare');
   }
 
-  //   let filled;
-  //   function checkDraw() {
-  //     for (let i = 0; i < gameBoard.board.length; i++) {
-  //       if (!gameBoard.board[i]) {
-  //         filled = false;
-  //         break;
-  //       } else filled = true;
-  //     }
-  //     if (filled && !winner) {
-  //     }
-  //   }
-
   function showWinner() {
     turnDisplay.textContent = `Player ${winner} has won!`;
   }
@@ -172,9 +115,6 @@ const game = (() => {
     switchTurn,
     updateTurnDisplay,
     checkWinner,
-    winner,
-    // checkDraw,
-    showWinner,
     remainingSpots,
     winnerDeclared,
     checkTie,
