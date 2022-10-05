@@ -29,7 +29,6 @@ const gameBoard = (() => {
         if (game.remainingSpots > 0) {
           game.switchTurn();
           game.updateDisplay();
-          console.log(game.remainingSpots);
         } else {
           game.declareTie();
         }
@@ -71,11 +70,11 @@ const game = (() => {
   ];
 
   function checkWinner() {
-    winConditions.forEach((item, index) => {
+    winConditions.forEach((item) => {
       if (
-        gameBoard.board[item[0]] === this.activePlayer.letter &&
-        gameBoard.board[item[1]] === this.activePlayer.letter &&
-        gameBoard.board[item[2]] === this.activePlayer.letter
+        gameBoard.board[item[0]] === gameBoard.board[item[1]] &&
+        gameBoard.board[item[0]] === gameBoard.board[item[2]] &&
+        gameBoard.board[item[0]]
       ) {
         display.textContent = `${this.activePlayer.playerName} wins!`;
         this.winnerDeclared = true;
@@ -92,8 +91,8 @@ const game = (() => {
     switchTurn,
     updateDisplay,
     checkWinner,
-    remainingSpots,
     winnerDeclared,
+    remainingSpots,
     declareTie,
   };
 })();
